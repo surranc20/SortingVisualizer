@@ -1,21 +1,11 @@
 import { MemoizedBar } from "./bar";
 import { useEffect, useState } from "react";
 
-import { generateRandomList } from "./models/helpers";
-import BarModel from "./models/barModel";
-import { bubbleSort, selectionSort } from "./algorithms/linearSearch";
-
-export const BarList = () => {
-  const numBars = 10;
-  const width = 100 / numBars.length;
-  const randomLyst = generateRandomList(numBars);
-  const initialBars1 = randomLyst.map(
-    (bar) => new BarModel(bar, width, "grey")
-  );
-  const [bars, updateBars] = useState(initialBars1);
+export const BarList = ({ algo, initialBars, groupNum }) => {
+  const [bars, updateBars] = useState(initialBars);
 
   useEffect(() => {
-    selectionSort(bars, 1, 1);
+    algo(bars, 50, groupNum);
   }, []);
 
   return (
@@ -26,7 +16,7 @@ export const BarList = () => {
           width={barModel.width}
           selected={barModel.selected}
           success={barModel.success}
-          groupNum={1}
+          groupNum={groupNum}
           key={index}
         ></MemoizedBar>
       ))}
