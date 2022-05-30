@@ -97,13 +97,13 @@ export const partition = async (array, low, high, delay, barRefs) => {
   return index + 1;
 };
 
-export const testSwap = async (array, delay, groupNum) => {
-  const barRefs = document.getElementsByClassName(`Bar ${groupNum}`);
+// export const testSwap = async (array, delay, groupNum) => {
+//   const barRefs = document.getElementsByClassName(`Bar ${groupNum}`);
 
-  for (let x = 0; x < array.length - 1; x++) {
-    await swap(array, x, x + 1, barRefs, delay);
-  }
-};
+//   for (let x = 0; x < array.length - 1; x++) {
+//     await swap(array, x, x + 1, barRefs, delay);
+//   }
+// };
 
 export const swap = async (array, index1, index2, barRefs, delay) => {
   barRefs[index1].style.backgroundColor = SWAP_COLOR;
@@ -118,6 +118,54 @@ export const swap = async (array, index1, index2, barRefs, delay) => {
   barRefs[index2].style.height = height1;
 
   [array[index1], array[index2]] = [array[index2], array[index1]];
+};
+
+export const mergeSort = async (array, delay, groupNum) => {
+  await mergeSortHelper(array, 0, array.length - 1, delay, groupNum);
+};
+
+export const mergeSortHelper = async (array, low, high, delay, groupNum) => {
+  if (low === high) {
+    return;
+  }
+  const mid = Math.floor((low + high) / 2);
+  await mergeSortHelper(array, low, mid, delay, groupNum);
+  await mergeSortHelper(array, mid + 1, high, delay, groupNum);
+  await merge(array, low, mid, high, delay, groupNum);
+};
+
+export const merge = async (array, low, mid, high, delay, groupNum) => {
+  const firstHalf = array.slice(low, mid + 1);
+  const secondHalf = array.slice(mid + 1, high + 1);
+
+  let arrayP = low;
+  let p1 = 0;
+  let p2 = 0;
+
+  if (mid === high) p2 = high;
+
+  while (p1 < firstHalf.length && p2 < secondHalf.length) {
+    if (firstHalf[p1].val < secondHalf[p2].val) {
+      array[arrayP] = firstHalf[p1];
+      p1++;
+    } else {
+      array[arrayP] = secondHalf[p2];
+      p2++;
+    }
+    arrayP++;
+  }
+
+  while (p1 < firstHalf.length) {
+    array[arrayP] = firstHalf[p1];
+    p1++;
+    arrayP++;
+  }
+
+  while (p2 < secondHalf.length) {
+    array[arrayP] = secondHalf[p2];
+    p2++;
+    arrayP++;
+  }
 };
 
 export const allSorted = (array, updateArray) => {

@@ -8,10 +8,10 @@ import {
   quickSort,
   quickSortConcurrent,
   selectionSort,
-  testSwap,
+  mergeSort,
 } from "./algorithms/searchAlgos";
 
-const numBars = 100;
+const numBars = 20;
 const width = 100 / numBars.length;
 const randomLyst = generateRandomList(numBars);
 const initialBars = randomLyst.map((bar) => new BarModel(bar, width, "grey"));
@@ -19,12 +19,7 @@ const initialBars = randomLyst.map((bar) => new BarModel(bar, width, "grey"));
 function App() {
   return (
     <div className="App">
-      <BarList
-        initialBars={[...initialBars]}
-        algo={quickSortConcurrent}
-        groupNum={1}
-      />
-      <BarList initialBars={[...initialBars]} algo={quickSort} groupNum={2} />
+      <BarList initialBars={[...initialBars]} algo={mergeSort} groupNum={1} />
     </div>
   );
 }
