@@ -5,7 +5,7 @@ export const BarList = ({ algo, initialBars, groupNum }) => {
   const [bars, updateBars] = useState(initialBars);
 
   useEffect(() => {
-    algo(bars, 50, groupNum);
+    algo(bars, 20, groupNum);
   }, []);
 
   return (

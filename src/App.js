@@ -11,7 +11,7 @@ import {
   mergeSort,
 } from "./algorithms/searchAlgos";
 
-const numBars = 20;
+const numBars = 200;
 const width = 100 / numBars.length;
 const randomLyst = generateRandomList(numBars);
 const initialBars = randomLyst.map((bar) => new BarModel(bar, width, "grey"));
