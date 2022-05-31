@@ -1,10 +1,9 @@
-import _ from "lodash";
-import BarModel from "./barModel";
+import BarModel from "./models/barModel";
 
 export const generateRandomList = (size) => {
   const lyst = [];
   for (let x = 0; x < size; x++) {
-    lyst.push(_.random(1, 100));
+    lyst.push(getRandomIntInclusive(1, 100));
   }
   return lyst;
 };
@@ -21,4 +20,11 @@ export const generateRandomColor = () => {
 
 export const sleep = (ms) => {
   return new Promise((resolve) => setTimeout(resolve, ms));
+};
+
+// from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+export const getRandomIntInclusive = (min, max) => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1) + min);
 };

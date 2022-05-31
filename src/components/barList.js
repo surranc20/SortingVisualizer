@@ -1,4 +1,4 @@
-import { MemoizedBar } from "./bar";
+import { MemoizedBar } from "../bar";
 
 export const BarList = ({ initialBars, groupNum }) => {
   return (

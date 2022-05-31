@@ -1,16 +1,16 @@
 import "./App.css";
-import { BarList } from "./barList";
-import ActionsBar from "./ActionsBar";
+import { BarList } from "./components/barList";
+import ActionsBar from "./components/ActionsBar";
 import { useState } from "react";
-import { getSortingAlgos } from "./algorithms/searchAlgos";
-import { generateInitialBars } from "./models/helpers";
+import { generateInitialBars } from "./helpers";
 import {
   bubbleSort,
   mergeSort,
   quickSort,
   quickSortConcurrent,
   selectionSort,
-} from "./algorithms/searchAlgos";
+  getSortingAlgos,
+} from "./algorithms";
 
 import { useEffect } from "react";
 
@@ -23,7 +23,6 @@ function App() {
   const [bars, updateBars] = useState(generateInitialBars(numBars));
   const [isSorting, updateIsSorting] = useState(false);
   const [delay, updateDelay] = useState(50);
-  const [shortcutSortSelected, updateShortcutSortSelected] = useState(false);
 
   const algoChanged = (newAlgo) => {
     updateSelectedAlgo(newAlgo);
