@@ -1,24 +1,13 @@
-import "./App.css";
+import { useState } from "react";
 import { BarList } from "./components/barList";
 import ActionsBar from "./components/ActionsBar";
-import { useState } from "react";
 import { generateInitialBars } from "./helpers";
-import {
-  bubbleSort,
-  mergeSort,
-  quickSort,
-  quickSortConcurrent,
-  selectionSort,
-  getSortingAlgos,
-} from "./algorithms";
-
-import { useEffect } from "react";
-
-const algos = getSortingAlgos();
+import { sortingAlgosList, getAlgoFromString } from "./algorithms";
+import "./css/App.css";
 
 function App() {
   const [numBars, updateNumBars] = useState(50);
-  const [selectedAlgo, updateSelectedAlgo] = useState(algos[0]);
+  const [selectedAlgo, updateSelectedAlgo] = useState(sortingAlgosList[0]);
   const [groupNum, updateGroupNum] = useState(0);
   const [bars, updateBars] = useState(generateInitialBars(numBars));
   const [isSorting, updateIsSorting] = useState(false);
@@ -26,11 +15,6 @@ function App() {
 
   const algoChanged = (newAlgo) => {
     updateSelectedAlgo(newAlgo);
-  };
-
-  const startSorting = async () => {
-    const tempGroupNum = groupNum;
-    updateGroupNum(tempGroupNum + 1);
   };
 
   const generateNewArray = (numBarsToUse = numBars) => {
@@ -47,27 +31,26 @@ function App() {
     startSorting();
   };
 
-  useEffect(() => {
-    const closure = async () => {
-      if (groupNum === 0) return;
-      updateIsSorting(true);
-      await getAlgoFromString(selectedAlgo)(bars, delay, groupNum);
-      updateIsSorting(false);
-    };
-    closure();
-  }, [groupNum]);
+  const startSorting = async () => {
+    const tempGroupNum = groupNum;
+    updateIsSorting(true);
+    await getAlgoFromString(selectedAlgo)(bars, delay, tempGroupNum);
+    updateIsSorting(false);
+    updateGroupNum(tempGroupNum + 1);
+  };
 
   return (
     <div className="App">
       <ActionsBar
-        parentSelectedAlgo={algoChanged}
+        selectedAlgo={selectedAlgo}
+        updateSelectedAlgo={algoChanged}
+        delay={delay}
+        updateDelay={updateDelay}
+        numBars={numBars}
+        updateNumBars={numBarsUpdated}
         startSorting={startSorting}
         isSorting={isSorting}
         generateNewArray={generateNewArray}
-        numBars={numBars}
-        updateNumBars={numBarsUpdated}
-        delay={delay}
-        updateDelay={updateDelay}
         menuItemClicked={menuItemClicked}
       ></ActionsBar>
       <div className="Content">
@@ -76,20 +59,5 @@ function App() {
     </div>
   );
 }
-
-const getAlgoFromString = (string) => {
-  switch (string) {
-    case "Bubble Sort":
-      return bubbleSort;
-    case "Selection Sort":
-      return selectionSort;
-    case "Quick Sort":
-      return quickSort;
-    case "Concurrent Quick Sort":
-      return quickSortConcurrent;
-    default:
-      return mergeSort;
-  }
-};
 
 export default App;

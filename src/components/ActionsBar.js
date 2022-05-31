@@ -1,3 +1,4 @@
+import { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -12,27 +13,24 @@ import Select from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Button from "@mui/material/Button";
-import { useState } from "react";
+import {
+  barNumberOptions,
+  sortingAlgosList,
+  sortingSpeeds,
+} from "../algorithms";
 
-const algos = [
-  "Bubble Sort",
-  "Selection Sort",
-  "Quick Sort",
-  "Concurrent Quick Sort",
-  "Merge Sort",
-];
 const ActionsBar = ({
-  parentSelectedAlgo,
+  selectedAlgo,
+  updateSelectedAlgo,
+  delay,
+  updateDelay,
+  numBars,
+  updateNumBars,
   startSorting,
   isSorting,
   generateNewArray,
-  numBars,
-  updateNumBars,
-  delay,
-  updateDelay,
   menuItemClicked,
 }) => {
-  const [selectedAlgo, updateSelectedAlgo] = useState(algos[0]);
   const [anchorElNav, setAnchorElNav] = useState(null);
 
   const handleOpenNavMenu = (event) => {
@@ -45,7 +43,6 @@ const ActionsBar = ({
 
   const handleChangeAlgo = (event) => {
     updateSelectedAlgo(event.target.value);
-    parentSelectedAlgo(event.target.value);
   };
 
   const handleChangeNumBars = (event) => {
@@ -70,13 +67,6 @@ const ActionsBar = ({
     ? "Currently sorting..."
     : "Generate New Array";
 
-  const sortingSpeeds = [
-    [1000, "Very Slow"],
-    [250, "Slow"],
-    [50, "Normal"],
-    [25, "Fast"],
-    [5, "Very Fast"],
-  ];
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -129,7 +119,7 @@ const ActionsBar = ({
                 display: { xs: "block", md: "none" },
               }}
             >
-              {algos.map((algo) => (
+              {sortingAlgosList.map((algo) => (
                 <MenuItem
                   key={algo}
                   onClick={handleMenuItemClicked}
@@ -177,7 +167,7 @@ const ActionsBar = ({
                 sx={{ color: "white" }}
                 disabled={isSorting}
               >
-                {algos.map((algo) => (
+                {sortingAlgosList.map((algo) => (
                   <MenuItem value={algo} key={algo}>
                     {algo}
                   </MenuItem>
@@ -200,7 +190,7 @@ const ActionsBar = ({
                 sx={{ color: "white" }}
                 disabled={isSorting}
               >
-                {[5, 10, 20, 30, 40, 50, 75, 100, 150, 200, 300].map((num) => (
+                {barNumberOptions.map((num) => (
                   <MenuItem value={num} key={num}>
                     {num}
                   </MenuItem>

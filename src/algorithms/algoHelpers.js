@@ -1,4 +1,11 @@
 import { sleep } from "../helpers";
+import {
+  bubbleSort,
+  mergeSort,
+  quickSort,
+  quickSortConcurrent,
+  selectionSort,
+} from "./";
 
 export const LOOKING_AT_COLOR = "orange";
 export const NORMAL_COLOR = "aquamarine";
@@ -35,12 +42,35 @@ export const allSorted = (array, updateArray) => {
   updateArray(array);
 };
 
-export const getSortingAlgos = () => {
-  return [
-    "Bubble Sort",
-    "Selection Sort",
-    "Quick Sort",
-    "Concurrent Quick Sort",
-    "Merge Sort",
-  ];
+export const sortingAlgosList = [
+  "Bubble Sort",
+  "Selection Sort",
+  "Quick Sort",
+  "Concurrent Quick Sort",
+  "Merge Sort",
+];
+
+export const getAlgoFromString = (string) => {
+  switch (string) {
+    case "Bubble Sort":
+      return bubbleSort;
+    case "Selection Sort":
+      return selectionSort;
+    case "Quick Sort":
+      return quickSort;
+    case "Concurrent Quick Sort":
+      return quickSortConcurrent;
+    default:
+      return mergeSort;
+  }
 };
+
+export const sortingSpeeds = [
+  [1000, "Very Slow"],
+  [250, "Slow"],
+  [50, "Normal"],
+  [25, "Fast"],
+  [5, "Very Fast"],
+];
+
+export const barNumberOptions = [5, 10, 20, 30, 40, 50, 75, 100, 150, 200, 300];

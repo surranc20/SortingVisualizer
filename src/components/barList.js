@@ -1,4 +1,4 @@
-import { MemoizedBar } from "../bar";
+import { MemoizedBar } from "./bar";
 
 export const BarList = ({ initialBars, groupNum }) => {
   return (
@@ -7,8 +7,6 @@ export const BarList = ({ initialBars, groupNum }) => {
         <MemoizedBar
           val={barModel.val}
           width={barModel.width}
-          selected={barModel.selected}
-          success={barModel.success}
           groupNum={groupNum}
           key={index}
         ></MemoizedBar>
