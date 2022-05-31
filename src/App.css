@@ -3,12 +3,20 @@
   height: 100%;
   background-color: black;
   display: flex;
+  flex-direction: column;
+}
+
+.Content {
+  width: 100vw;
+  height: 100%;
+  background-color: black;
+  display: flex;
   flex-direction: row;
   gap: 20px;
 }
 
 @media only screen and (max-width: 800px) {
-  .App {
+  .Content {
     flex-direction: column;
   }
 }
@@ -18,9 +26,6 @@
   height: 100vh;
   width: 100vw;
   display: inline-block;
-  border: 1px;
-  border-color: white;
-  border-style: solid;
   background-color: aquamarine;
   margin-left: 1px;
   margin-right: 1px;

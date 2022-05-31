@@ -1,27 +1,96 @@
 import "./App.css";
 import { BarList } from "./barList";
-import { generateRandomList } from "./models/helpers";
-import BarModel from "./models/barModel";
-
+import ActionsBar from "./ActionsBar";
+import { useState } from "react";
+import { getSortingAlgos } from "./algorithms/searchAlgos";
+import { generateInitialBars } from "./models/helpers";
 import {
   bubbleSort,
+  mergeSort,
   quickSort,
   quickSortConcurrent,
   selectionSort,
-  mergeSort,
 } from "./algorithms/searchAlgos";
 
-const numBars = 200;
-const width = 100 / numBars.length;
-const randomLyst = generateRandomList(numBars);
-const initialBars = randomLyst.map((bar) => new BarModel(bar, width, "grey"));
+import { useEffect } from "react";
+
+const algos = getSortingAlgos();
 
 function App() {
+  const [numBars, updateNumBars] = useState(50);
+  const [selectedAlgo, updateSelectedAlgo] = useState(algos[0]);
+  const [groupNum, updateGroupNum] = useState(0);
+  const [bars, updateBars] = useState(generateInitialBars(numBars));
+  const [isSorting, updateIsSorting] = useState(false);
+  const [delay, updateDelay] = useState(50);
+  const [shortcutSortSelected, updateShortcutSortSelected] = useState(false);
+
+  const algoChanged = (newAlgo) => {
+    updateSelectedAlgo(newAlgo);
+  };
+
+  const startSorting = async () => {
+    const tempGroupNum = groupNum;
+    updateGroupNum(tempGroupNum + 1);
+  };
+
+  const generateNewArray = (numBarsToUse = numBars) => {
+    updateBars(generateInitialBars(numBarsToUse));
+  };
+
+  const numBarsUpdated = (newNumBars) => {
+    updateNumBars(newNumBars);
+    generateNewArray(newNumBars);
+  };
+
+  const menuItemClicked = (algoSelected) => {
+    updateSelectedAlgo(algoSelected);
+    startSorting();
+  };
+
+  useEffect(() => {
+    const closure = async () => {
+      if (groupNum === 0) return;
+      updateIsSorting(true);
+      await getAlgoFromString(selectedAlgo)(bars, delay, groupNum);
+      updateIsSorting(false);
+    };
+    closure();
+  }, [groupNum]);
+
   return (
     <div className="App">
-      <BarList initialBars={[...initialBars]} algo={mergeSort} groupNum={1} />
+      <ActionsBar
+        parentSelectedAlgo={algoChanged}
+        startSorting={startSorting}
+        isSorting={isSorting}
+        generateNewArray={generateNewArray}
+        numBars={numBars}
+        updateNumBars={numBarsUpdated}
+        delay={delay}
+        updateDelay={updateDelay}
+        menuItemClicked={menuItemClicked}
+      ></ActionsBar>
+      <div className="Content">
+        <BarList initialBars={bars} groupNum={groupNum} />
+      </div>
     </div>
   );
 }
+
+const getAlgoFromString = (string) => {
+  switch (string) {
+    case "Bubble Sort":
+      return bubbleSort;
+    case "Selection Sort":
+      return selectionSort;
+    case "Quick Sort":
+      return quickSort;
+    case "Concurrent Quick Sort":
+      return quickSortConcurrent;
+    default:
+      return mergeSort;
+  }
+};
 
 export default App;

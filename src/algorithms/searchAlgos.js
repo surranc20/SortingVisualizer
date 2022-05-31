@@ -32,6 +32,7 @@ export const selectionSort = async (array, delay, groupNum) => {
 
 export const bubbleSort = async (array, delay, groupNum) => {
   const barRefs = document.getElementsByClassName(`Bar ${groupNum}`);
+  console.log(barRefs);
   for (let x = 0; x < array.length - 1; x++) {
     for (let y = 0; y < array.length - 1 - x; y++) {
       changeColor(y, barRefs, LOOKING_AT_COLOR);
@@ -73,8 +74,10 @@ export const quickSortHelperConcurrent = async (
 ) => {
   if (low < high) {
     const pivot = await partition(array, low, high, delay, barRefs);
-    quickSortHelperConcurrent(array, low, pivot - 1, delay, barRefs);
-    quickSortHelperConcurrent(array, pivot + 1, high, delay, barRefs);
+    await Promise.all([
+      quickSortHelperConcurrent(array, low, pivot - 1, delay, barRefs),
+      quickSortHelperConcurrent(array, pivot + 1, high, delay, barRefs),
+    ]);
   }
 };
 
@@ -204,4 +207,14 @@ const changeColor = (index, barRefs, color) => {
 
 const changeHeight = (index, barRefs, height) => {
   barRefs[index].style.height = height + "%";
+};
+
+export const getSortingAlgos = () => {
+  return [
+    "Bubble Sort",
+    "Selection Sort",
+    "Quick Sort",
+    "Concurrent Quick Sort",
+    "Merge Sort",
+  ];
 };

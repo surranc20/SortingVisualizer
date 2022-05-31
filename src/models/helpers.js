@@ -1,4 +1,5 @@
 import _ from "lodash";
+import BarModel from "./barModel";
 
 export const generateRandomList = (size) => {
   const lyst = [];
@@ -6,6 +7,12 @@ export const generateRandomList = (size) => {
     lyst.push(_.random(1, 100));
   }
   return lyst;
+};
+
+export const generateInitialBars = (numBars) => {
+  const width = 100 / numBars.length;
+  const randomLyst = generateRandomList(numBars);
+  return randomLyst.map((bar) => new BarModel(bar, width, "grey"));
 };
 
 export const generateRandomColor = () => {
