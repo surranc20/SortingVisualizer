@@ -56,7 +56,12 @@ const ActionsBar = ({
   const handleMenuItemClicked = (event) => {
     handleCloseNavMenu();
     const { menuItem } = event.currentTarget.dataset;
-    menuItemClicked(menuItem);
+
+    if (menuItem === "newArray") {
+      generateNewArray();
+    } else {
+      menuItemClicked(menuItem);
+    }
   };
 
   const sortingButtonText = isSorting
@@ -129,6 +134,13 @@ const ActionsBar = ({
                   <Typography textAlign="center">{algo}</Typography>
                 </MenuItem>
               ))}
+              <MenuItem
+                onClick={handleMenuItemClicked}
+                disabled={isSorting}
+                data-menu-item="newArray"
+              >
+                <Typography textAlign="center">Generate New Array</Typography>
+              </MenuItem>
             </Menu>
           </Box>
           <SortIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
