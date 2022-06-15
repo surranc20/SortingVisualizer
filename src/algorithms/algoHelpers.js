@@ -5,6 +5,7 @@ import {
   quickSort,
   quickSortConcurrent,
   selectionSort,
+  radixSort
 } from "./";
 
 export const LOOKING_AT_COLOR = "orange";
@@ -48,6 +49,7 @@ export const sortingAlgosList = [
   "Quick Sort",
   "Concurrent Quick Sort",
   "Merge Sort",
+  "Radix Sort"
 ];
 
 export const getAlgoFromString = (string) => {
@@ -60,6 +62,8 @@ export const getAlgoFromString = (string) => {
       return quickSort;
     case "Concurrent Quick Sort":
       return quickSortConcurrent;
+    case "Radix Sort":
+      return radixSort
     default:
       return mergeSort;
   }
